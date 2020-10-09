@@ -34,34 +34,29 @@ declare -A dailyWage
 function getWorkHrs() {
 	case $1 in
 		$IS_FULL_TIME)
-			workHours=8
+			empHrs=8
 			;;
 		$IS_PART_TIME)
-			workHours=4
+			empHrs=4
 			;;
 		*)
-			workHours=0
+			empHrs=0
 			;;
 	esac
+}
+function getEmpWage() {
+	echo $(($1*$EMP_RATE_PER_HR))
 }
 
 While [[ $totalEmpHr -lt $MAX_HRS_IN_MONTH && $totalWorkingDays -lt $NUM_WORKING_DAYS ]]
 do
         ((totalWorkingDays++))
          empCheck=$(($RANDOM%3));
-                case $empCheck in
-                        $isFullTime)
-                                empHrs=8;
-                                ;;
-                        $isPartTime)
-                                empHrs=4;
-                                ;;
-                        *)
-                                empHrs=0;
-                esac
-                totalEmpHr=$(($totalEmpHr+$empHrs))
+         getWorkHrs $empCheck
+	 totalEmpHr=$(($totalEmpHr+$empHrs))
+	 dailyWages[$totalWorkingDays]=$(($empHrs*$EMP_RATE_PER_HR))
 done
-totalSalary=$(($totalEmpHr*$EMP_RATE_PER_HR))
+totalSalary="$( getEmpWage $totalEmpHr)"
 
 
 isPartTime=1;
