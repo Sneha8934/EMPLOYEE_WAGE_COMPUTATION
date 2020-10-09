@@ -54,7 +54,7 @@ do
          empCheck=$(($RANDOM%3));
          getWorkHrs $empCheck
 	 totalEmpHr=$(($totalEmpHr+$empHrs))
-	 dailyWages[$totalWorkingDays]=$(($empHrs*$EMP_RATE_PER_HR))
+	 dailyWages["$totalWorkingDays"]=$(($empHrs*$EMP_RATE_PER_HR))
 done
 totalSalary="$( getEmpWage $totalEmpHr)"
 
